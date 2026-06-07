@@ -22,8 +22,8 @@ def analyze():
     print("\n📊 IoT ANALYTICS REPORT")
     print("-" * 40)
 
-    print("Total Actions:", len(data))
-
+    #print("Total Actions:", len(data))
+    print("TOTAL ACTION COUNT:", len(data))
     device_count = {}
 
     for device, value, ts in data:

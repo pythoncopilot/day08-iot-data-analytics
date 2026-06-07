@@ -1,22 +1,30 @@
-# Day 8 IoT Data Analytics Project
+## GitHub Actions (CI Pipeline)
 
-## Features
-- Arduino simulation (optional)
-- Flask API backend
-- SQLite database logging
-- Real-time dashboard
-- Analytics script for device usage
+This project uses GitHub Actions to automatically validate Python code on every push.
 
-## Run Order
+### Workflow Steps:
+1. GitHub detects push to main branch
+2. Creates a fresh Linux runner
+3. Installs Python 3.11
+4. Runs compile check on all Python files
 
-### 1. Start API
-python python/api.py
+### What it checks:
+- Python syntax errors
+- File structure validity
+- Basic code integrity
 
-### 2. Open dashboard
-open dashboard/index.html
+### What it does NOT check:
+- Runtime execution
+- Database connections
+- API responses
+- UI behavior
 
-### 3. Run analytics
-python python/analytics.py
+### Why CI is important:
+- Prevents broken code from being merged
+- Provides instant feedback after commits
+- Ensures code quality consistency
+- Simulates real production pipelines
 
-### 4. (Optional) Simulation
-python python/serial_reader.py
+### View results:
+Go to the "Actions" tab in GitHub repository.
+Each push generates a new workflow run.
