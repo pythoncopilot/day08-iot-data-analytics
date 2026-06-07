@@ -1,4 +1,4 @@
-name: IoT Python Check
+name: IoT Level 2 CI Pipeline
 
 on:
   push:
@@ -9,13 +9,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: "3.11"
 
-    - name: Compile Python
+    # -----------------------------
+    # 1. Install dependencies
+    # -----------------------------
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+
+    # -----------------------------
+    # 2. Syntax validation
+    # -----------------------------
+    - name: Python syntax check
       run: |
         python -m compileall python
+
+    # -----------------------------
+    # 3. Run analytics (IoT logic test)
+    # -----------------------------
+    - name: Run analytics script
+      run: |
+        python python/analytics.py
+
+    # -----------------------------
+    # 4. Simulate database creation test
+    # -----------------------------
+    - name: Check database folder
+      run: |
+        if [ -d database ]; then
+          echo "Database folder exists"
+        else
+          echo "Database folder missing"
+          exit 1
+        fi
