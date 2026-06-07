@@ -1,10 +1,13 @@
-name: IoT Level 2 CI Pipeline
+name: IoT Event-Based CI Pipeline
 
 on:
   push:
     branches: ["main"]
-    paths-ignore:
-      - "README.md"
+    paths:
+      - "python/**"
+      - "dashboard/**"
+      - "arduino/**"
+      - "database/**"
 
 jobs:
   test:
@@ -20,24 +23,25 @@ jobs:
         python-version: "3.11"
 
     # -----------------------------
-    # Python syntax validation
+    # 1. Syntax check (full backend)
     # -----------------------------
-    - name: Python syntax check
+    - name: Python syntax validation
       run: |
         python -m compileall python
 
     # -----------------------------
-    # Run IoT analytics
+    # 2. Run analytics engine
     # -----------------------------
-    - name: Run analytics script
+    - name: Run IoT analytics
       run: |
         python python/analytics.py
 
     # -----------------------------
-    # Validate project structure
+    # 3. Basic structure validation
     # -----------------------------
-    - name: Check project structure
+    - name: Validate project structure
       run: |
         test -d python
         test -d dashboard
+        test -d arduino
         test -d database
