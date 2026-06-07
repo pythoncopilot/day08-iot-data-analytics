@@ -3,6 +3,8 @@ name: IoT Level 2 CI Pipeline
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "README.md"
 
 jobs:
   test:
@@ -18,34 +20,24 @@ jobs:
         python-version: "3.11"
 
     # -----------------------------
-    # 1. Install dependencies
-    # -----------------------------
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-
-    # -----------------------------
-    # 2. Syntax validation
+    # Python syntax validation
     # -----------------------------
     - name: Python syntax check
       run: |
         python -m compileall python
 
     # -----------------------------
-    # 3. Run analytics (IoT logic test)
+    # Run IoT analytics
     # -----------------------------
     - name: Run analytics script
       run: |
         python python/analytics.py
 
     # -----------------------------
-    # 4. Simulate database creation test
+    # Validate project structure
     # -----------------------------
-    - name: Check database folder
+    - name: Check project structure
       run: |
-        if [ -d database ]; then
-          echo "Database folder exists"
-        else
-          echo "Database folder missing"
-          exit 1
-        fi
+        test -d python
+        test -d dashboard
+        test -d database
